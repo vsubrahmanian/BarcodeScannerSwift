@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		86D0A1021AFDEB72001AE951 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A1011AFDEB72001AE951 /* AppDelegate.swift */; };
-		86D0A1041AFDEB72001AE951 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A1031AFDEB72001AE951 /* ViewController.swift */; };
 		86D0A1071AFDEB72001AE951 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86D0A1051AFDEB72001AE951 /* Main.storyboard */; };
 		86D0A1091AFDEB72001AE951 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86D0A1081AFDEB72001AE951 /* Images.xcassets */; };
 		86D0A10C1AFDEB72001AE951 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86D0A10A1AFDEB72001AE951 /* LaunchScreen.xib */; };
@@ -19,7 +18,6 @@
 		86D0A0FC1AFDEB72001AE951 /* BarcodeScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarcodeScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86D0A1001AFDEB72001AE951 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86D0A1011AFDEB72001AE951 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		86D0A1031AFDEB72001AE951 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		86D0A1061AFDEB72001AE951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		86D0A1081AFDEB72001AE951 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86D0A10B1AFDEB72001AE951 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -57,11 +55,10 @@
 			isa = PBXGroup;
 			children = (
 				86D0A1011AFDEB72001AE951 /* AppDelegate.swift */,
-				86D0A1031AFDEB72001AE951 /* ViewController.swift */,
 				86D0A1211AFDEC28001AE951 /* ScanController.swift */,
 				86D0A1051AFDEB72001AE951 /* Main.storyboard */,
-				86D0A1081AFDEB72001AE951 /* Images.xcassets */,
 				86D0A10A1AFDEB72001AE951 /* LaunchScreen.xib */,
+				86D0A1081AFDEB72001AE951 /* Images.xcassets */,
 				86D0A0FF1AFDEB72001AE951 /* Supporting Files */,
 			);
 			path = BarcodeScanner;
@@ -101,11 +98,14 @@
 		86D0A0F41AFDEB71001AE951 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Vijay Subrahmanian";
 				TargetAttributes = {
 					86D0A0FB1AFDEB71001AE951 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = CM9SK6HD94;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -145,7 +145,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D0A1041AFDEB72001AE951 /* ViewController.swift in Sources */,
 				86D0A1221AFDEC28001AE951 /* ScanController.swift in Sources */,
 				86D0A1021AFDEB72001AE951 /* AppDelegate.swift in Sources */,
 			);
@@ -186,8 +185,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -195,6 +196,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -210,7 +212,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -233,8 +235,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -251,10 +255,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -265,10 +270,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = CM9SK6HD94;
 				INFOPLIST_FILE = BarcodeScanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sapient.vs.BarcodeScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -277,10 +287,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = CM9SK6HD94;
 				INFOPLIST_FILE = BarcodeScanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sapient.vs.BarcodeScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
