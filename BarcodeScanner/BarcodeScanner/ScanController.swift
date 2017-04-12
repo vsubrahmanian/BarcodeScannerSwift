@@ -79,6 +79,10 @@ class ScanController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        captureLayer?.frame = cameraPreviewView.bounds
+    }
+    
     // AVCaptureMetadataOutputObjectsDelegate method
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         // Do your action on barcode capture here:
