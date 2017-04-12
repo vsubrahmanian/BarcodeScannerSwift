@@ -19,68 +19,72 @@ class ScanController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        self.setupScanningSession()
+        // prepare scanning session
+        setupScanningSession()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Start the camera capture session as soon as the view appears completely.
-        self.captureSession.startRunning()
+        captureSession.startRunning()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func rescanButtonPressed(sender: AnyObject) {
+    @IBAction func rescanButtonPressed(_ sender: AnyObject) {
         // Start scanning again.
-        self.captureSession.startRunning()
+        scannedBarcode.text = nil
+        captureSession.startRunning()
     }
     
-    @IBAction func copyButtonPressed(sender: AnyObject) {
+    @IBAction func copyButtonPressed(_ sender: AnyObject) {
         // Copy the barcode text to the clipboard.
-        let clipboard = UIPasteboard.generalPasteboard()
-        clipboard.string = self.scannedBarcode.text
-    }
-    
-    @IBAction func doneButtonPressed(sender: AnyObject) {
-        self.captureSession.stopRunning()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let clipboard = UIPasteboard.general
+        clipboard.string = scannedBarcode.text
     }
     
     // Local method to setup camera scanning session.
     func setupScanningSession() {
         // Set camera capture device to default.
-        let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        var error: NSErrorPointer = nil
+        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
-        if let input: AnyObject = AVCaptureDeviceInput.deviceInputWithDevice(captureDevice, error: error) {
-            // Adding input souce for capture session.
-            self.captureSession.addInput(input as! AVCaptureInput)
-        } else {
-            println("Error Getting Camera Input")
+        // Create input souce for capture session.
+        do {
+            let input = try AVCaptureDeviceInput(device: captureDevice)
+            captureSession.addInput(input)
+        }
+        catch _ {
+            print("Error Getting Camera Input")
         }
         
         let output = AVCaptureMetadataOutput()
+        
+        // Create a new queue and set delegate for metadata objects scanned
+        let dispatchQueue = DispatchQueue(label: "scanQueue", attributes: [])
+        output.setMetadataObjectsDelegate(self, queue: dispatchQueue)
+        // Set output to camera session.
+        captureSession.addOutput(output)
+        
         // Set recognisable barcode types as all available barcodes.
         output.metadataObjectTypes = output.availableMetadataObjectTypes
         
-        // Create a new queue and set delegate for metadata objects scanned
-        let dispatchQueue = dispatch_queue_create("scanQueue", nil)
-        output.setMetadataObjectsDelegate(self, queue: dispatchQueue)
-        // Set output to camera session.
-        self.captureSession.addOutput(output)
-        
-        self.captureLayer = AVCaptureVideoPreviewLayer.layerWithSession(captureSession) as? AVCaptureVideoPreviewLayer
-        self.captureLayer!.frame = self.cameraPreviewView.frame
-        self.captureLayer!.videoGravity = AVLayerVideoGravityResizeAspect
-        self.cameraPreviewView.layer.addSublayer(self.captureLayer)
+        //make layer
+        if let captureLayer = AVCaptureVideoPreviewLayer(session: captureSession) {
+            captureLayer.frame = cameraPreviewView.bounds
+            captureLayer.videoGravity = AVLayerVideoGravityResizeAspect
+            cameraPreviewView.layer.addSublayer(captureLayer)
+            
+            self.captureLayer = captureLayer
+        }
+        else {
+            print("Error Creating Preview Layer")
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        captureLayer?.frame = cameraPreviewView.bounds
     }
     
     // AVCaptureMetadataOutputObjectsDelegate method
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         // Do your action on barcode capture here:
         var capturedBarcode: String
         
@@ -90,21 +94,20 @@ class ScanController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode]
         
         // In all scanned values..
-        for barcodeMetadata in metadataObjects {
+        for barcodeMetadata in metadataObjects as! [AVMetadataObject] {
             // ..check if it is a suported barcode
             for supportedBarcode in supportedBarcodeTypes {
-                
                 if supportedBarcode == barcodeMetadata.type {
                     // This is a supported barcode
                     // Note barcodeMetadata is of type AVMetadataObject
                     // AND barcodeObject is of type AVMetadataMachineReadableCodeObject
-                    let barcodeObject = self.captureLayer!.transformedMetadataObjectForMetadataObject(barcodeMetadata as! AVMetadataObject)
+                    let barcodeObject = captureLayer!.transformedMetadataObject(for: barcodeMetadata)
                     capturedBarcode = (barcodeObject as! AVMetadataMachineReadableCodeObject).stringValue
                     // Got the barcode. Set the text in the UI and break out of the loop.
                     
-                    dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                        self.captureSession.stopRunning()
-                        self.scannedBarcode.text = capturedBarcode
+                    DispatchQueue.main.sync(execute: { () -> Void in
+                        captureSession.stopRunning()
+                        scannedBarcode.text = capturedBarcode
                     })
                     return
                 }
